@@ -58,6 +58,14 @@ let response = {
     already_registered: {
         message: "User is already registered",
         code: "TT_015"
+    },
+    already_registered_department: {
+        message: "Department is already registered",
+        code: "TT_016"
+    },
+    already_registered_employee: {
+        message: "Employee is already registered",
+        code: "TT_017"
     }
 }
 

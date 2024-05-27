@@ -28,8 +28,6 @@ module.exports = class ticketController {
         let rules = {
             // deptId: 'required',
             deptName: 'required',
-            deptHeadName: 'required',
-            deptHeadEmpId: 'required'
         }
         let validation = new Validator(formData, rules)
         if (validation.passes() || !validation.fails()) {
@@ -42,12 +40,14 @@ module.exports = class ticketController {
     async updateDept(req, res) {
         let returnResponse = {};
         let formData = {
-            email: req.body.email,
-            password: req.body.password
+            deptId: req.body.deptId,
+            deptName: req.body.deptName,
+            deptHeadName: req.body.deptHeadName,
+            deptHeadEmpId: req.body.deptHeadEmpId
         }
         let rules = {
-            email: "required",
-            password: "required"
+            deptId: 'required',
+            deptName: 'required',
         }
         let validation = new Validator(formData, rules)
         if (validation.passes() || !validation.fails()) {
@@ -60,12 +60,10 @@ module.exports = class ticketController {
     async deleteDept(req, res) {
         let returnResponse = {};
         let formData = {
-            email: req.body.email,
-            password: req.body.password
+            id: req.query.id,
         }
         let rules = {
-            email: "required",
-            password: "required"
+            id: "required",
         }
         let validation = new Validator(formData, rules)
         if (validation.passes() || !validation.fails()) {

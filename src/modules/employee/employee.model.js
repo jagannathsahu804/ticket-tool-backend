@@ -7,24 +7,34 @@ module.exports = class departmentModel {
 
     getAllEmployee(data) {
         let cols = {
-            emp_id: 'emp_id',
+            emp_id: 'employee.id',
             emp_name: 'emp_name',
             phone: 'phone',
             email: 'email',
             deptId: 'deptId',
             gender: 'gender',
             role: 'role',
+            password: 'password',
+            deptName: 'department.deptName'
         }
-        return knex.select(cols).from('employee');
+        let obj = knex.select(cols).from('employee').leftJoin('department', 'department.id', '=', 'employee.deptId').where('employee.status',1);;
+        if (data.id) obj.where('emp_id', data.id)
+        return obj;
     }
     createNewEmployee(data) {
         return knex('employee').insert(data);
     }
     updateEmployee(data) {
-        return knex('employee').update(data);
+        let emp_id = data.emp_id;
+        delete data['emp_id'];
+        return knex('employee').update(data).where('id',emp_id);
     }
     deleteEmployee(data) {
         return knex('employee').update({ status: 0 }).where('id', data.id);
+    }
+
+    isDuplicateEmployee(data){
+        return knex.select('id').from('employee').where('email',data.email)
     }
 
 }

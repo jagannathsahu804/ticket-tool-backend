@@ -17,19 +17,41 @@ module.exports = class ticketController {
         res.json(returnResponse);
     }
 
+    async getEmployeeById(req, res) {
+        let returnResponse = {};
+        let formData = {
+            id: req.query.id,
+        }
+        let rules = {
+            id: "required",
+        }
+        let validation = new Validator(formData, rules)
+        if (validation.passes() || !validation.fails()) {
+            returnResponse = await service.getAllEmployee(formData)
+        } else returnResponse = response.failed('required', validation.errors.errors)
+        res.json(returnResponse); 
+    }
+
     async createNewEmployee(req, res) {
         let returnResponse = {};
         let formData = {
             deptId: req.body.deptId,
-            deptName: req.body.deptName,
-            deptHeadName: req.body.deptHeadName,
-            deptHeadEmpId: req.body.deptHeadEmpId
+            email: req.body.email,
+            emp_name: req.body.emp_name,
+            gender: req.body.gender,
+            password: req.body.password,
+            phone: req.body.phone,
+            role: req.body.role,
         }
+
         let rules = {
             deptId: 'required',
-            deptName: 'required',
-            deptHeadName: 'required',
-            deptHeadEmpId: 'required'
+            email: 'required',
+            emp_name: 'required',
+            gender: 'required',
+            password: 'required',
+            phone: 'required',
+            role: 'required',
         }
         let validation = new Validator(formData, rules)
         if (validation.passes() || !validation.fails()) {
@@ -42,14 +64,27 @@ module.exports = class ticketController {
     async updateEmployee(req, res) {
         let returnResponse = {};
         let formData = {
+            emp_id: req.body.emp_id,
+            deptId: req.body.deptId,
             email: req.body.email,
-            password: req.body.password
+            emp_name: req.body.emp_name,
+            gender: req.body.gender,
+            password: req.body.password,
+            phone: req.body.phone,
+            role: req.body.role,
         }
+
         let rules = {
-            email: "required",
-            password: "required"
+            emp_id: 'required',
+            deptId: 'required',
+            email: 'required',
+            emp_name: 'required',
+            gender: 'required',
+            password: 'required',
+            phone: 'required',
+            role: 'required',
         }
-        let validation = new Validator(formData, rules)
+       let validation = new Validator(formData, rules)
         if (validation.passes() || !validation.fails()) {
             returnResponse = await service.updateEmployee(formData)
         } else returnResponse = response.failed('required', validation.errors.errors)
@@ -60,12 +95,10 @@ module.exports = class ticketController {
     async deleteEmployee(req, res) {
         let returnResponse = {};
         let formData = {
-            email: req.body.email,
-            password: req.body.password
+            id: req.query.id,
         }
         let rules = {
-            email: "required",
-            password: "required"
+            id: "required",
         }
         let validation = new Validator(formData, rules)
         if (validation.passes() || !validation.fails()) {

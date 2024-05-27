@@ -2,7 +2,9 @@ let Validator = require('validatorjs');
 let service = new (require('./ticket.service'))();
 let response = require('../../responses');
 let config = require('../../../config/config')
+let common_function = new (require('../../common_functions'))();
 // let model = new (require('./ticket.model'))();
+
 
 module.exports = class ticketController {
     constructor() { }
@@ -50,6 +52,47 @@ module.exports = class ticketController {
         let validation = new Validator(formData, rules)
         if (validation.passes() || !validation.fails()) {
             // returnResponse = await service.register(formData)
+        } else returnResponse = response.failed('required', validation.errors.errors)
+        console.log(returnResponse)
+        res.json(returnResponse);
+    }
+
+    async CreateNewTicket(req, res) {
+        let returnResponse = {};
+        let formData = {
+            deptId: req.body.deptId,
+            severity: req.body.severity,
+            employeeId: req.body.employeeId,
+            state: "Un-Assigned",
+            expectedEndDate: common_function.addDays(7),
+            requestDetails: req.body.requestDetails,
+        }
+
+        let rules = {
+            deptId: 'required',
+            severity: 'required',
+            employeeId: 'required',
+            requestDetails: 'required',
+        }
+        let validation = new Validator(formData, rules)
+        if (validation.passes() || !validation.fails()) {
+            returnResponse = await service.CreateNewTicket(formData)
+        } else returnResponse = response.failed('required', validation.errors.errors)
+        console.log(returnResponse)
+        res.json(returnResponse);
+    }
+
+    async getTicketsCreatedByEmpId(req,res){
+        let returnResponse = {};
+        let formData = {
+            id: req.query.id,
+        }
+        let rules = {
+            id: "required",
+        }
+        let validation = new Validator(formData, rules)
+        if (validation.passes() || !validation.fails()) {
+            returnResponse = await service.getTicketsCreatedByEmpId(formData)
         } else returnResponse = response.failed('required', validation.errors.errors)
         console.log(returnResponse)
         res.json(returnResponse);

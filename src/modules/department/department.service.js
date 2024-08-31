@@ -10,6 +10,19 @@ module.exports = class departmentService {
         }
         return response.success('record_found', resp);
     }
+
+    async getDashboardDetails(formData) {
+        let EmployeeDetails = await model.getEmployeeDetails(formData)
+        let TicketDetails = await model.getTicketDetails(formData)
+        let DeptDetails = await model.getDeptDetails(formData)
+        let resp = [{...EmployeeDetails[0],...TicketDetails[0],...DeptDetails[0]}];
+
+        if (!resp.length) {
+            return response.failed('No_record_found')
+        }
+        return response.success('record_found', resp);
+    }
+
     async createNewDept(formData) {
         let isDuplicate = await model.isDuplicateDepartment(formData)
         if (isDuplicate.length) return response.success('already_registered_department', {});

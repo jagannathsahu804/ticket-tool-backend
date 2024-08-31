@@ -82,6 +82,25 @@ module.exports = class ticketController {
         res.json(returnResponse);
     }
 
+    async assignTicket(req, res) {
+        let returnResponse = {};
+        let formData = {
+            ticketId: req.body.ticketId,
+            assignedTo: req.body.assignedTo
+        }
+
+        let rules = {
+            ticketId: 'required',
+            assignedTo: 'required',
+        }
+        let validation = new Validator(formData, rules)
+        if (validation.passes() || !validation.fails()) {
+            returnResponse = await service.assignTicket(formData)
+        } else returnResponse = response.failed('required', validation.errors.errors)
+        console.log(returnResponse)
+        res.json(returnResponse);
+    }
+
     async getTicketsCreatedByEmpId(req,res){
         let returnResponse = {};
         let formData = {
@@ -97,4 +116,97 @@ module.exports = class ticketController {
         console.log(returnResponse)
         res.json(returnResponse);
     }
+
+    async getAllTickets(req,res){
+        let returnResponse = {};
+        let formData = {}
+        let rules = {}
+        let validation = new Validator(formData, rules)
+        if (validation.passes() || !validation.fails()) {
+            returnResponse = await service.getAllTickets(formData)
+        } else returnResponse = response.failed('required', validation.errors.errors)
+        console.log(returnResponse)
+        res.json(returnResponse);
+    }
+
+    async getAssignedTicketsByEmpId(req,res){
+        let returnResponse = {};
+        let formData = {
+            id: req.query.id,
+        }
+        let rules = {
+            id: "required",
+        }
+        let validation = new Validator(formData, rules)
+        if (validation.passes() || !validation.fails()) {
+            returnResponse = await service.getAssignedTicketsByEmpId(formData)
+        } else returnResponse = response.failed('required', validation.errors.errors)
+        console.log(returnResponse)
+        res.json(returnResponse);
+    }
+
+    async getNewTickets(req,res){
+        let returnResponse = {};
+        let formData = {
+            id: req.query.deptHeadEmpId,
+        }
+        let rules = {
+            id: "required",
+        }
+        let validation = new Validator(formData, rules)
+        if (validation.passes() || !validation.fails()) {
+            returnResponse = await service.getNewTickets(formData)
+        } else returnResponse = response.failed('required', validation.errors.errors)
+        console.log(returnResponse)
+        res.json(returnResponse);
+    }
+
+    async GetEmpByDept(req,res){
+        let returnResponse = {};
+        let formData = {
+            id: req.query.id,
+        }
+        let rules = {
+            id: "required",
+        }
+        let validation = new Validator(formData, rules)
+        if (validation.passes() || !validation.fails()) {
+            returnResponse = await service.GetEmpByDept(formData)
+        } else returnResponse = response.failed('required', validation.errors.errors)
+        console.log(returnResponse)
+        res.json(returnResponse);
+    }
+
+    async startTicket(req,res){
+        let returnResponse = {};
+        let formData = {
+            ticketId: req.query.id,
+        }
+        let rules = {
+            ticketId: "required",
+        }
+        let validation = new Validator(formData, rules)
+        if (validation.passes() || !validation.fails()) {
+            returnResponse = await service.startTicket(formData)
+        } else returnResponse = response.failed('required', validation.errors.errors)
+        console.log(returnResponse)
+        res.json(returnResponse);
+    }
+
+    async closeTicket(req,res){
+        let returnResponse = {};
+        let formData = {
+            ticketId: req.query.id,
+        }
+        let rules = {
+            ticketId: "required",
+        }
+        let validation = new Validator(formData, rules)
+        if (validation.passes() || !validation.fails()) {
+            returnResponse = await service.closeTicket(formData)
+        } else returnResponse = response.failed('required', validation.errors.errors)
+        console.log(returnResponse)
+        res.json(returnResponse);
+    }
+
 }

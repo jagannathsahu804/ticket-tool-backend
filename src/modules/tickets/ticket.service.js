@@ -25,8 +25,49 @@ module.exports = class ticketService {
         return response.success('save_success', {});
     }
 
+    async assignTicket(formData) {
+        let resp = await model.assignTicket(formData);
+        if (!resp.length && resp.length == 0) return response.failed('assign_failed')
+        return response.success('assign_success', {});
+    }
+
     async getTicketsCreatedByEmpId(formData) {
         let resp = await model.getTicketsCreatedByEmpId(formData);
+        if (!resp) {
+            return response.failed('No_record_found')
+        }
+        return response.success('record_found', resp);
+    }
+    
+    async getAllTickets(formData) {
+        let resp = await model.getAllTickets(formData);
+        if (!resp) {
+            return response.failed('No_record_found')
+        }
+        return response.success('record_found', resp);
+    }
+    
+    async getAssignedTicketsByEmpId(formData) {
+        let resp = await model.getAssignedTicketsByEmpId(formData);
+        if (!resp) {
+            return response.failed('No_record_found')
+        }
+        return response.success('record_found', resp);
+    }
+
+    async getNewTickets(formData) {
+        let getDeptData = await model.getDeptId(formData);
+        console.log("getDeptData",getDeptData)
+        let getDeptIds = getDeptData.map(item => item.id);
+        let resp = await model.getNewTickets(getDeptIds);
+        if (!resp) {
+            return response.failed('No_record_found')
+        }
+        return response.success('record_found', resp);
+    }
+
+    async GetEmpByDept(formData) {
+        let resp = await model.GetEmpByDept(formData);
         if (!resp) {
             return response.failed('No_record_found')
         }
@@ -41,7 +82,7 @@ module.exports = class ticketService {
         const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
         const day = String(today.getDate()).padStart(2, '0');
         let formattedDate = `${year}${month}${day}`;
-        return `${uniqueId}-${formattedDate}`;
+        return `REQ-${uniqueId}-${formattedDate}`;
     }
 
     async checkAndGenerateUnique() {
@@ -52,4 +93,15 @@ module.exports = class ticketService {
         else return unique;
     }
 
+    async startTicket(formData) {
+        let resp = await model.startTicket(formData);
+        if (!resp.length && resp.length == 0) return response.failed('assign_failed')
+        return response.success('assign_success', {});
+    }
+
+    async closeTicket(formData) {
+        let resp = await model.closeTicket(formData);
+        if (!resp.length && resp.length == 0) return response.failed('assign_failed')
+        return response.success('assign_success', {});
+    }
 }

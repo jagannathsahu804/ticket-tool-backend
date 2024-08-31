@@ -17,6 +17,17 @@ module.exports = class ticketController {
         res.json(returnResponse);
     }
 
+    async getDashboardDetails(req, res) {
+        let returnResponse = {};
+        let formData = {}
+        let rules = {}
+        let validation = new Validator(formData, rules)
+        if (validation.passes() || !validation.fails()) {
+            returnResponse = await service.getDashboardDetails(formData)
+        } else returnResponse = response.failed('required', validation.errors.errors)
+        res.json(returnResponse);
+    }
+
     async createNewDept(req, res) {
         let returnResponse = {};
         let formData = {

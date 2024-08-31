@@ -11,6 +11,7 @@ router.get("/GetDepartments",departmentController.getAllDept);
 router.post("/CreateDepartment",departmentController.createNewDept);
 router.put("/UpdateDepartment",departmentController.updateDept);
 router.delete("/DeleteDepartment",departmentController.deleteDept);
+router.get("/getDashboardDetails",departmentController.getDashboardDetails);
 
 //employees
 router.get("/GetEmployees",employeeController.getAllEmployee);
@@ -21,6 +22,14 @@ router.delete("/DeleteEmployee",employeeController.deleteEmployee);
 //New Ticket
 router.post("/CreateNewTicket",ticketController.CreateNewTicket);
 router.get("/getTicketsCreatedByEmpId",ticketController.getTicketsCreatedByEmpId);
+router.get("/getNewTickets",ticketController.getNewTickets);
+router.get("/GetEmpByDept",ticketController.GetEmpByDept);
+router.get("/GetAllTickets",ticketController.getAllTickets);
+router.post("/assignRequest",ticketController.assignTicket);
+router.get("/getAssignedTicketsByEmpId",ticketController.getAssignedTicketsByEmpId);
+
+router.post("/startTicket",ticketController.startTicket);
+router.post("/closeTicket",ticketController.closeTicket);
 
 
 module.exports = router;

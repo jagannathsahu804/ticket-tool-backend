@@ -66,6 +66,14 @@ let response = {
     already_registered_employee: {
         message: "Employee is already registered",
         code: "TT_017"
+    },
+    assign_success: {
+        message: "Assigned!!",
+        code: "TT_0018"
+    },
+    assign_failed: {
+        message: "Failed to Assign",
+        code: "TT_019"
     }
 }
 

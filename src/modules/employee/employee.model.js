@@ -18,7 +18,7 @@ module.exports = class departmentModel {
             deptName: 'department.deptName'
         }
         let obj = knex.select(cols).from('employee').leftJoin('department', 'department.id', '=', 'employee.deptId').where('employee.status',1);;
-        if (data.id) obj.where('emp_id', data.id)
+        if (data.id) obj.where('id', data.id)
         return obj;
     }
     createNewEmployee(data) {
